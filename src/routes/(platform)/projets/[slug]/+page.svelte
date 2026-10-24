@@ -31,7 +31,7 @@
     if (!isAvailable) return;
     started = true;
     markProjectStarted(data.project.id);
-    notice = 'Projet commencÃ©. Ta progression est enregistrÃ©e sur cet appareil.';
+    notice = 'Projet commencé. Ta progression est enregistrée sur cet appareil.';
   }
 
   function persistTasks() {
@@ -62,34 +62,34 @@
   function completeProject() {
     completed = markProjectCompleted(data.project.id);
     started = true;
-    notice = completed ? 'Bravo, projet marquÃ© comme terminÃ© !' : 'Impossible dâ€™enregistrer la progression dans ce navigateur.';
+    notice = completed ? 'Bravo, projet marqué comme terminé !' : 'Impossible d’enregistrer la progression dans ce navigateur.';
   }
 </script>
 
-<SeoHead title={`${data.project.title} : projet pratique â€” WebSchool`} description={data.project.description} path={`/projets/${data.project.id}`} noindex={data.project.status !== 'available'} />
+<SeoHead title={`${data.project.title} : projet pratique — WebSchool`} description={data.project.description} path={`/projets/${data.project.id}`} noindex={data.project.status !== 'available'} />
 
 <a class="back-link" href={sitePath('/projets')}>â† Tous les projets</a>
-<header class="project-heading"><span class="eyebrow">PROJET Â· {data.project.level.toUpperCase()} Â· {data.project.duration}</span><h1>{data.project.title}</h1><p>{data.project.description}</p><div class="tech-list">{#each data.project.technologies as tech}<span>{tech}</span>{/each}</div></header>
+<header class="project-heading"><span class="eyebrow">PROJET · {data.project.level.toUpperCase()} · {data.project.duration}</span><h1>{data.project.title}</h1><p>{data.project.description}</p><div class="tech-list">{#each data.project.technologies as tech}<span>{tech}</span>{/each}</div></header>
 
 <div class="project-layout">
   <section class="project-content">
-    <section class="panel"><span class="eyebrow">OBJECTIF</span><h2>Ce que tu vas construire</h2><p>{isTodo ? 'Une liste de tÃ¢ches simple et personnelle : ajoute un Ã©lÃ©ment, marque-le comme rÃ©alisÃ© et retire-le si besoin. Les tÃ¢ches restent enregistrÃ©es localement dans ce navigateur.' : 'Un projet guidÃ© pour appliquer les notions des cours et bÃ¢tir progressivement une rÃ©alisation Ã  montrer dans ton portfolio.'}</p>
-      {#if !isAvailable}<p class="coming-note">Le parcours guidÃ© de ce projet est encore en prÃ©paration.</p>{:else if !started}<button class="primary-button" type="button" onclick={beginProject}>Commencer ce projet â†’</button>{:else}<p class="started-note">âœ“ Projet commencÃ©</p>{/if}
+    <section class="panel"><span class="eyebrow">OBJECTIF</span><h2>Ce que tu vas construire</h2><p>{isTodo ? 'Une liste de tâches simple et personnelle : ajoute un élément, marque-le comme réalisé et retire-le si besoin. Les tâches restent enregistrées localement dans ce navigateur.' : 'Un projet guidé pour appliquer les notions des cours et bâtir progressivement une réalisation à montrer dans ton portfolio.'}</p>
+      {#if !isAvailable}<p class="coming-note">Le parcours guidé de ce projet est encore en préparation.</p>{:else if !started}<button class="primary-button" type="button" onclick={beginProject}>Commencer ce projet →</button>{:else}<p class="started-note">✓ Projet commencé</p>{/if}
     </section>
 
     {#if isTodo}
-      <section class="todo-panel" aria-labelledby="todo-title"><div class="todo-title"><div><span class="eyebrow">ATELIER PRATIQUE</span><h2 id="todo-title">Ma liste de tÃ¢ches</h2></div><span class="task-count">{tasks.filter((task) => !task.done).length} Ã  faire</span></div>
-        <form onsubmit={addTask}><label for="new-task">Nouvelle tÃ¢che</label><div class="add-row"><input id="new-task" bind:value={newTask} maxlength="120" placeholder="Ex. RÃ©viser les Ã©vÃ©nements" /><button type="submit">Ajouter</button></div></form>
-        {#if tasks.length}<ul class="task-list">{#each tasks as task (task.id)}<li><label><input type="checkbox" checked={task.done} onchange={() => toggleTask(task.id)} /><span class:done={task.done}>{task.text}</span></label><button class="delete-button" type="button" aria-label={`Supprimer : ${task.text}`} onclick={() => deleteTask(task.id)}>Supprimer</button></li>{/each}</ul>{:else}<p class="empty-tasks">Ta liste est vide. Ajoute une tÃ¢che pour commencer.</p>{/if}
-        <p class="storage-hint">Les tÃ¢ches sont sauvegardÃ©es sur cet appareil avec localStorage.</p>
+      <section class="todo-panel" aria-labelledby="todo-title"><div class="todo-title"><div><span class="eyebrow">ATELIER PRATIQUE</span><h2 id="todo-title">Ma liste de tâches</h2></div><span class="task-count">{tasks.filter((task) => !task.done).length} à faire</span></div>
+        <form onsubmit={addTask}><label for="new-task">Nouvelle tâche</label><div class="add-row"><input id="new-task" bind:value={newTask} maxlength="120" placeholder="Ex. Réviser les événements" /><button type="submit">Ajouter</button></div></form>
+        {#if tasks.length}<ul class="task-list">{#each tasks as task (task.id)}<li><label><input type="checkbox" checked={task.done} onchange={() => toggleTask(task.id)} /><span class:done={task.done}>{task.text}</span></label><button class="delete-button" type="button" aria-label={`Supprimer : ${task.text}`} onclick={() => deleteTask(task.id)}>Supprimer</button></li>{/each}</ul>{:else}<p class="empty-tasks">Ta liste est vide. Ajoute une tâche pour commencer.</p>{/if}
+        <p class="storage-hint">Les tâches sont sauvegardées sur cet appareil avec localStorage.</p>
       </section>
-      <section class="panel steps"><span class="eyebrow">Ã‰TAPES DU DÃ‰FI</span><h2>Ã€ toi dâ€™aller plus loin</h2><ol><li>Ajoute plusieurs tÃ¢ches et marque-en une comme terminÃ©e.</li><li>Supprime une tÃ¢che dont tu nâ€™as plus besoin.</li><li>Observe la liste aprÃ¨s actualisation : les donnÃ©es persistent.</li><li>Quand tu as terminÃ© et compris les interactions, marque le projet comme terminÃ©.</li></ol>{#if !completed}<button class="complete-button" type="button" onclick={completeProject}>Jâ€™ai terminÃ© le projet</button>{:else}<p class="completed-note">âœ“ Projet terminÃ©. Tu peux revenir modifier ta liste quand tu veux.</p>{/if}</section>
+      <section class="panel steps"><span class="eyebrow">ÉTAPES DU DÉFI</span><h2>À toi d’aller plus loin</h2><ol><li>Ajoute plusieurs tâches et marque-en une comme terminée.</li><li>Supprime une tâche dont tu n’as plus besoin.</li><li>Observe la liste après actualisation : les données persistent.</li><li>Quand tu as terminé et compris les interactions, marque le projet comme terminé.</li></ol>{#if !completed}<button class="complete-button" type="button" onclick={completeProject}>J’ai terminé le projet</button>{:else}<p class="completed-note">✓ Projet terminé. Tu peux revenir modifier ta liste quand tu veux.</p>{/if}</section>
     {:else}
-      <section class="panel steps"><span class="eyebrow">PARCOURS EN PRÃ‰PARATION</span><h2>Ce projet nâ€™a pas encore son atelier guidÃ©</h2><p>Cette fiche prÃ©sente les objectifs et les notions Ã  mobiliser. Le parcours dÃ©taillÃ© sera ajoutÃ© ultÃ©rieurement.</p><h3>Notions Ã  pratiquer</h3><ul>{#each data.project.concepts as concept}<li>{concept}</li>{/each}</ul></section>
+      <section class="panel steps"><span class="eyebrow">PARCOURS EN PRÉPARATION</span><h2>Ce projet n’a pas encore son atelier guidé</h2><p>Cette fiche présente les objectifs et les notions à mobiliser. Le parcours détaillé sera ajouté ultérieurement.</p><h3>Notions à pratiquer</h3><ul>{#each data.project.concepts as concept}<li>{concept}</li>{/each}</ul></section>
     {/if}
     {#if notice}<p class="notice" role="status">{notice}</p>{/if}
   </section>
-  <aside class="side-panel"><section class="panel"><span class="eyebrow">NOTIONS TRAVAILLÃ‰ES</span><ul class="concept-list">{#each data.project.concepts as concept}<li><span>âœ“</span>{concept}</li>{/each}</ul></section><section class="panel"><span class="eyebrow">LEÃ‡ONS ASSOCIÃ‰ES</span>{#if data.project.lessons.length}<ul class="lesson-list">{#each data.project.lessons as lesson}<li><a href={sitePath(`/cours/${lesson.courseId}/lecons/${lesson.slug}`)}><small>{lesson.courseId === 'javascript' ? 'JAVASCRIPT' : lesson.courseId.toUpperCase()}</small><span>{lesson.title} â†’</span></a></li>{/each}</ul>{:else}<p>Aucune leÃ§on associÃ©e nâ€™est encore disponible.</p>{/if}</section></aside>
+  <aside class="side-panel"><section class="panel"><span class="eyebrow">NOTIONS TRAVAILLÉES</span><ul class="concept-list">{#each data.project.concepts as concept}<li><span>✓</span>{concept}</li>{/each}</ul></section><section class="panel"><span class="eyebrow">LEÇONS ASSOCIÉES</span>{#if data.project.lessons.length}<ul class="lesson-list">{#each data.project.lessons as lesson}<li><a href={sitePath(`/cours/${lesson.courseId}/lecons/${lesson.slug}`)}><small>{lesson.courseId === 'javascript' ? 'JAVASCRIPT' : lesson.courseId.toUpperCase()}</small><span>{lesson.title} →</span></a></li>{/each}</ul>{:else}<p>Aucune leçon associée n’est encore disponible.</p>{/if}</section></aside>
 </div>
 
 <style>

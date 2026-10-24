@@ -24,19 +24,20 @@
 
   function toggleTheme() {
     theme = theme === 'light' ? 'dark' : 'light';
-    try { localStorage.setItem('webschool-theme', theme); } catch { /* Le thÃƒÂ¨me reste actif jusqu'au rechargement. */ }
+    try { localStorage.setItem('webschool-theme', theme); } catch { /* Le thème reste actif jusqu'au rechargement. */ }
   }
 </script>
 
 <svelte:head>
   <meta name="theme-color" content={theme === 'dark' ? '#17201a' : '#f5f6f2'} />
+  <link rel="icon" type="image/svg+xml" href={`${base}/logo-webschool.svg`} />
 </svelte:head>
 
 <div class="platform-shell" data-theme={theme}>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
   <header class="topbar">
     <a class="brand" href={sitePath('/')} aria-label="WebSchool, accueil">
-      <span class="brand-mark">&lt;/&gt;</span>
+      <img class="brand-mark" src={`${base}/logo-webschool.svg`} alt="" />
       <span class="brand-name">web<span>school</span><small>APPRENDRE EN PRATIQUANT</small></span>
     </a>
 
@@ -45,11 +46,11 @@
     <nav class="top-nav" aria-label="Navigation principale">
       <a href={sitePath('/cours')} class:active={currentPath.startsWith('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Cours</a>
       <a href={sitePath('/projets')} class:active={currentPath.startsWith('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined}>Projets</a>
-      <a href={sitePath('/reference')} class:active={currentPath === '/reference'} aria-current={currentPath === '/reference' ? 'page' : undefined}>RÃƒÂ©fÃƒÂ©rences</a>
+      <a href={sitePath('/reference')} class:active={currentPath === '/reference'} aria-current={currentPath === '/reference' ? 'page' : undefined}>Références</a>
       <a href={sitePath('/progression')} class:active={currentPath === '/progression'} aria-current={currentPath === '/progression' ? 'page' : undefined}>Ma progression</a>
     </nav>
     <div class="top-controls">
-      <button class="theme-button" type="button" onclick={toggleTheme} aria-label={theme === 'dark' ? 'Activer le thÃƒÂ¨me clair' : 'Activer le thÃƒÂ¨me sombre'} title={theme === 'dark' ? 'ThÃƒÂ¨me clair' : 'ThÃƒÂ¨me sombre'}>
+      <button class="theme-button" type="button" onclick={toggleTheme} aria-label={theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre'} title={theme === 'dark' ? 'Thème clair' : 'Thème sombre'}>
         {#if theme === 'dark'}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>{:else}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>{/if}
       </button>
       <button class="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'} onclick={() => menuOpen = !menuOpen}><span class:open={menuOpen} class="menu-glyph" aria-hidden="true"><i></i><i></i></span></button>
@@ -60,13 +61,13 @@
     <nav id="mobile-navigation" class="mobile-navigation" aria-label="Navigation mobile">
       <a href={sitePath('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined} onclick={() => menuOpen = false}>Cours HTML, CSS et JavaScript</a>
       <a href={sitePath('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined} onclick={() => menuOpen = false}>Projets</a>
-      <a href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined} onclick={() => menuOpen = false}>RÃƒÂ©fÃƒÂ©rences</a>
+      <a href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined} onclick={() => menuOpen = false}>Références</a>
       <a href={sitePath('/progression')} aria-current={currentPath === '/progression' ? 'page' : undefined} onclick={() => menuOpen = false}>Ma progression</a>
     </nav>
   {/if}
 
   <div class="workspace">
-    <aside class="side-nav" aria-label="Espace dÃ¢â‚¬â„¢apprentissage">
+    <aside class="side-nav" aria-label="Espace d’apprentissage">
       <p class="side-label">APPRENDRE</p>
       <a class="side-link" class:active={currentPath === '/'} href={sitePath('/')} aria-current={currentPath === '/' ? 'page' : undefined}>Accueil</a>
       <a class="side-link" class:active={currentPath.startsWith('/cours')} href={sitePath('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Tous les cours</a>
@@ -77,9 +78,9 @@
       <a class="side-link" class:active={currentPath.startsWith('/cours/css')} href={sitePath('/cours/css')} aria-current={currentPath.startsWith('/cours/css') ? 'page' : undefined}><span class="course-dot css-dot"></span>CSS</a>
       <a class="side-link" class:active={currentPath.startsWith('/cours/javascript')} href={sitePath('/cours/javascript')} aria-current={currentPath.startsWith('/cours/javascript') ? 'page' : undefined}><span class="course-dot js-dot"></span>JavaScript</a>
       <div class="side-divider"></div>
-      <a class="side-link" class:active={currentPath === '/reference'} href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined}>Documentation de rÃƒÂ©fÃƒÂ©rence</a>
+      <a class="side-link" class:active={currentPath === '/reference'} href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined}>Documentation de référence</a>
       <a class="side-link" class:active={currentPath === '/progression'} href={sitePath('/progression')} aria-current={currentPath === '/progression' ? 'page' : undefined}>Progression personnelle</a>
-      <div class="side-note"><span class="note-mark" aria-hidden="true"></span><p>Tu avances ÃƒÂ  ton rythme. Reviens ÃƒÂ  une leÃƒÂ§on quand tu en as besoin.</p></div>
+      <div class="side-note"><span class="note-mark" aria-hidden="true"></span><p>Tu avances à ton rythme. Reviens à une leçon quand tu en as besoin.</p></div>
     </aside>
 
     <main id="contenu" class="page-content">
@@ -89,8 +90,8 @@
 
   <footer class="site-footer">
     <a class="footer-brand" href={sitePath('/')}>WebSchool</a>
-    <span>Une notion ÃƒÂ  la fois, un exemple aprÃƒÂ¨s lÃ¢â‚¬â„¢autre.</span>
-    <div><a href={sitePath('/cours')}>Cours</a><a href={sitePath('/reference')}>RÃƒÂ©fÃƒÂ©rences</a><a href={sitePath('/a-propos')}>Ãƒâ‚¬ propos</a></div>
+    <span>Une notion à la fois, un exemple après l’autre.</span>
+    <div><a href={sitePath('/cours')}>Cours</a><a href={sitePath('/reference')}>Références</a><a href={sitePath('/a-propos')}>À propos</a></div>
   </footer>
 </div>
 
@@ -99,7 +100,7 @@
   .platform-shell[data-theme="dark"]{--surface:#202923;--surface-soft:#252f28;--surface-raised:#29342c;--text:#edf2ed;--text-soft:#d0dbd1;--muted:#a2afa4;--line:#39463b;--line-strong:#4a594c;--accent:#8fc79a;--accent-hover:#acd9b5;--accent-soft:#2b3c2e;--focus:#e0bd68;--success:#a4d4ad;--warning:#e1c477;--danger:#efa89c;--canvas:#171e19;background:var(--canvas);color:var(--text)}
   .skip-link{position:fixed;z-index:20;top:8px;left:8px;transform:translateY(-150%);padding:10px 14px;border-radius:8px;background:#145e39;color:white;font-size:13px;text-decoration:none}.skip-link:focus{transform:translateY(0)}
   .topbar{position:sticky;top:0;z-index:40;min-height:68px;display:flex;align-items:center;gap:23px;padding:0 clamp(18px,4vw,56px);background:var(--surface);border-bottom:1px solid var(--line)}
-  .brand{display:flex;align-items:center;gap:10px;min-width:175px;color:var(--text);text-decoration:none}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:var(--accent);color:#fff;font:800 13px ui-monospace,monospace;letter-spacing:-2px}.brand-name{font:800 20px/1 Manrope,system-ui,sans-serif;letter-spacing:-1px}.brand-name>span{color:var(--accent)}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:700 7px/1 'DM Sans',sans-serif;letter-spacing:1px}
+  .brand{display:flex;align-items:center;gap:10px;min-width:175px;color:var(--text);text-decoration:none}.brand-mark{width:38px;height:38px;display:block;border-radius:11px}.brand-name{font:800 20px/1 Manrope,system-ui,sans-serif;letter-spacing:-1px}.brand-name>span{color:var(--accent)}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:700 7px/1 'DM Sans',sans-serif;letter-spacing:1px}
   .top-nav{display:flex;align-items:center;gap:20px;margin-left:auto}.top-nav a,.site-footer a{color:var(--muted);font-size:12px;text-decoration:none}.top-nav a:hover,.site-footer a:hover,.top-nav a.active{color:var(--accent)}.top-nav a.active{font-weight:750}.top-controls{display:flex;gap:7px}.theme-button,.menu-button{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text);cursor:pointer}.theme-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.7}.menu-button{display:none}.menu-glyph{position:relative;width:17px;height:14px;display:block}.menu-glyph i{position:absolute;left:0;width:17px;height:1.5px;border-radius:2px;background:currentColor;transition:transform .16s,top .16s}.menu-glyph i:first-child{top:3px}.menu-glyph i:last-child{top:10px}.menu-glyph.open i:first-child{top:6px;transform:rotate(45deg)}.menu-glyph.open i:last-child{top:6px;transform:rotate(-45deg)}.mobile-navigation{display:none}
   .workspace{max-width:1500px;min-height:calc(100vh - 144px);display:grid;grid-template-columns:224px minmax(0,1fr);margin:auto}.side-nav{position:sticky;top:68px;align-self:start;height:calc(100vh - 68px);overflow-y:auto;padding:25px 15px;background:var(--surface);border-right:1px solid var(--line)}.side-label{margin:8px 9px;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:1.2px}.side-link{min-height:40px;display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;color:var(--text);font-size:12px;line-height:1.45;text-decoration:none}.side-link:hover,.side-link.active{background:var(--surface-soft);color:var(--accent)}.side-link.active{font-weight:750}.side-divider{height:1px;margin:14px 8px;background:var(--line)}.course-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%}.html-dot{background:#d46c43}.css-dot{background:#3b78a8}.js-dot{background:#9b771f}.side-note{display:flex;gap:9px;margin:24px 3px 0;padding:11px;border:1px solid #e6e1cf;border-radius:9px;background:#f8f6eb;color:#6c6246}.note-mark{width:7px;height:7px;flex:0 0 7px;margin:5px 2px 0;border-radius:50%;background:#b69a55}.side-note p{margin:0;font-size:10px;line-height:1.6}.page-content{width:min(100%,1180px);min-width:0;margin:0 auto;padding:36px clamp(22px,4vw,56px) 54px}
   .site-footer{min-height:76px;display:flex;align-items:center;gap:20px;padding:15px clamp(18px,4vw,56px);background:var(--surface);border-top:1px solid var(--line);color:var(--muted);font-size:11px}.footer-brand{color:var(--text)!important;font:800 15px Manrope,system-ui,sans-serif!important}.site-footer>div{display:flex;gap:17px;margin-left:auto}
