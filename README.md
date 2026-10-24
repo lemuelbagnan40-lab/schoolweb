@@ -1,6 +1,6 @@
-# WebSchool
+# webschool.github.io
 
-WebSchool est une plateforme francophone pour apprendre HTML, CSS et JavaScript par la pratique. Le projet utilise SvelteKit, Svelte 5, JavaScript natif, HTML sémantique et CSS natif.
+webschool.github.io est une plateforme francophone pour apprendre HTML, CSS et JavaScript par la pratique. Le projet utilise SvelteKit, Svelte 5, JavaScript natif, HTML sémantique et CSS natif.
 
 ## Démarrer
 

@@ -1,4 +1,4 @@
-name: Deploy WebSchool to GitHub Pages
+name: Deploy webschool.github.io to GitHub Pages
 
 on:
   push:

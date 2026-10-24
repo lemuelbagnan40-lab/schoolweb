@@ -66,7 +66,7 @@
   }
 </script>
 
-<SeoHead title={`${data.project.title} : projet pratique — WebSchool`} description={data.project.description} path={`/projets/${data.project.id}`} noindex={data.project.status !== 'available'} />
+<SeoHead title={`${data.project.title} : projet pratique — webschool.github.io`} description={data.project.description} path={`/projets/${data.project.id}`} noindex={data.project.status !== 'available'} />
 
 <a class="back-link" href={sitePath('/projets')}>â† Tous les projets</a>
 <header class="project-heading"><span class="eyebrow">PROJET · {data.project.level.toUpperCase()} · {data.project.duration}</span><h1>{data.project.title}</h1><p>{data.project.description}</p><div class="tech-list">{#each data.project.technologies as tech}<span>{tech}</span>{/each}</div></header>
