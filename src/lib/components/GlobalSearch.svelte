@@ -1,4 +1,5 @@
 <script>
+  import { sitePath } from '$lib/site-path.js';
   import { goto } from '$app/navigation';
   import { searchResources } from '$lib/services/search.js';
 
@@ -26,17 +27,17 @@
   }
 </script>
 
-<form class="global-search" action="/recherche" method="get" role="search" onsubmit={() => focused = false}>
-  <label class="visually-hidden" for="global-search-input">Rechercher un cours, une leçon ou une notion</label>
-  <span aria-hidden="true">⌕</span>
-  <input id="global-search-input" bind:value={query} type="search" name="q" placeholder="Chercher une notion…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded={expanded} aria-controls="global-search-results" aria-activedescendant={expanded ? `global-search-option-${activeIndex}` : undefined} onfocus={() => focused = true} oninput={() => activeIndex = 0} onkeydown={handleKeydown} />
-  {#if query}<button class="clear-search" type="button" aria-label="Effacer la recherche" onclick={() => { query = ''; focused = true; document.querySelector('#global-search-input')?.focus(); }}>×</button>{:else}<kbd>Entrée</kbd>{/if}
+<form class="global-search" action={sitePath('/recherche')} method="get" role="search" onsubmit={() => focused = false}>
+  <label class="visually-hidden" for="global-search-input">Rechercher un cours, une leÃ§on ou une notion</label>
+  <span aria-hidden="true">âŒ•</span>
+  <input id="global-search-input" bind:value={query} type="search" name="q" placeholder="Chercher une notionâ€¦" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded={expanded} aria-controls="global-search-results" aria-activedescendant={expanded ? `global-search-option-${activeIndex}` : undefined} onfocus={() => focused = true} oninput={() => activeIndex = 0} onkeydown={handleKeydown} />
+  {#if query}<button class="clear-search" type="button" aria-label="Effacer la recherche" onclick={() => { query = ''; focused = true; document.querySelector('#global-search-input')?.focus(); }}>Ã—</button>{:else}<kbd>EntrÃ©e</kbd>{/if}
   {#if expanded}
     <ul id="global-search-results" class="search-suggestions" role="listbox" aria-label="Suggestions de recherche">
       {#each suggestions as result, index (result.id)}
-        <li role="presentation"><a id={`global-search-option-${index}`} role="option" aria-selected={index === activeIndex} href={result.href} onclick={() => focused = false}><span class="suggestion-type">{result.technologies?.join(' · ') ?? result.technology.toUpperCase()} · {result.type === 'lesson' ? 'LEÇON' : result.type === 'exercise' ? 'EXERCICE' : result.type === 'reference' ? 'RÉFÉRENCE' : result.type === 'module' ? 'CHAPITRE' : result.type === 'project' ? 'PROJET' : 'COURS'}</span><strong>{result.title}</strong><small>{result.description}</small></a></li>
+        <li role="presentation"><a id={`global-search-option-${index}`} role="option" aria-selected={index === activeIndex} href={sitePath(result.href)} onclick={() => focused = false}><span class="suggestion-type">{result.technologies?.join(' Â· ') ?? result.technology.toUpperCase()} Â· {result.type === 'lesson' ? 'LEÃ‡ON' : result.type === 'exercise' ? 'EXERCICE' : result.type === 'reference' ? 'RÃ‰FÃ‰RENCE' : result.type === 'module' ? 'CHAPITRE' : result.type === 'project' ? 'PROJET' : 'COURS'}</span><strong>{result.title}</strong><small>{result.description}</small></a></li>
       {/each}
-      <li class="all-results"><a href={`/recherche?q=${encodeURIComponent(query)}`}>Voir tous les résultats pour « {query} » →</a></li>
+      <li class="all-results"><a href={sitePath(`/recherche?q=${encodeURIComponent(query)}`)}>Voir tous les rÃ©sultats pour Â« {query} Â» â†’</a></li>
     </ul>
   {/if}
 </form>

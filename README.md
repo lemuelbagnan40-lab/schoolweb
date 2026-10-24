@@ -30,3 +30,7 @@ Pour lancer les tests unitaires : `npm test`.
 ## Référencement en production
 
 Définir `PUBLIC_SITE_URL` avec l’origine HTTPS officielle (par exemple `https://votre-domaine.example`) dans l’environnement de déploiement. Cette valeur alimente les URL canoniques, `robots.txt` et le sitemap XML ; sans elle, les URL absolues ne sont pas émises et le sitemap reste vide. Remplacer l’exemple par le domaine réellement utilisé avant publication.
+
+## Déploiement GitHub Pages
+
+Le workflow `.github/workflows/deploy-pages.yml` construit et publie le site à chaque push sur `main`. Il configure le préfixe du dépôt `webschool` et génère les canonicals, `robots.txt` et le sitemap pour `https://lemuelbagnan40-lab.github.io/webschool/`. Dans les paramètres du dépôt GitHub, sélectionner **Settings → Pages → Build and deployment → Source → GitHub Actions**.

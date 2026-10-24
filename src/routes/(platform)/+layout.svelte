@@ -1,12 +1,14 @@
 <script>
+  import { sitePath } from '$lib/site-path.js';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
+  import { base } from '$app/paths';
   import GlobalSearch from '$lib/components/GlobalSearch.svelte';
 
   let { children } = $props();
   let theme = $state('light');
   let menuOpen = $state(false);
-  const currentPath = $derived(page.url.pathname);
+  const currentPath = $derived(page.url.pathname.slice(base.length) || '/');
 
   onMount(() => {
     try {
@@ -22,7 +24,7 @@
 
   function toggleTheme() {
     theme = theme === 'light' ? 'dark' : 'light';
-    try { localStorage.setItem('webschool-theme', theme); } catch { /* Le thème reste actif jusqu'au rechargement. */ }
+    try { localStorage.setItem('webschool-theme', theme); } catch { /* Le thÃƒÂ¨me reste actif jusqu'au rechargement. */ }
   }
 </script>
 
@@ -33,7 +35,7 @@
 <div class="platform-shell" data-theme={theme}>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="WebSchool, accueil">
+    <a class="brand" href={sitePath('/')} aria-label="WebSchool, accueil">
       <span class="brand-mark">&lt;/&gt;</span>
       <span class="brand-name">web<span>school</span><small>APPRENDRE EN PRATIQUANT</small></span>
     </a>
@@ -41,13 +43,13 @@
     <GlobalSearch />
 
     <nav class="top-nav" aria-label="Navigation principale">
-      <a href="/cours" class:active={currentPath.startsWith('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Cours</a>
-      <a href="/projets" class:active={currentPath.startsWith('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined}>Projets</a>
-      <a href="/reference" class:active={currentPath === '/reference'} aria-current={currentPath === '/reference' ? 'page' : undefined}>Références</a>
-      <a href="/progression" class:active={currentPath === '/progression'} aria-current={currentPath === '/progression' ? 'page' : undefined}>Ma progression</a>
+      <a href={sitePath('/cours')} class:active={currentPath.startsWith('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Cours</a>
+      <a href={sitePath('/projets')} class:active={currentPath.startsWith('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined}>Projets</a>
+      <a href={sitePath('/reference')} class:active={currentPath === '/reference'} aria-current={currentPath === '/reference' ? 'page' : undefined}>RÃƒÂ©fÃƒÂ©rences</a>
+      <a href={sitePath('/progression')} class:active={currentPath === '/progression'} aria-current={currentPath === '/progression' ? 'page' : undefined}>Ma progression</a>
     </nav>
     <div class="top-controls">
-      <button class="theme-button" type="button" onclick={toggleTheme} aria-label={theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre'} title={theme === 'dark' ? 'Thème clair' : 'Thème sombre'}>
+      <button class="theme-button" type="button" onclick={toggleTheme} aria-label={theme === 'dark' ? 'Activer le thÃƒÂ¨me clair' : 'Activer le thÃƒÂ¨me sombre'} title={theme === 'dark' ? 'ThÃƒÂ¨me clair' : 'ThÃƒÂ¨me sombre'}>
         {#if theme === 'dark'}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>{:else}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"/></svg>{/if}
       </button>
       <button class="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation" aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'} onclick={() => menuOpen = !menuOpen}><span class:open={menuOpen} class="menu-glyph" aria-hidden="true"><i></i><i></i></span></button>
@@ -56,28 +58,28 @@
 
   {#if menuOpen}
     <nav id="mobile-navigation" class="mobile-navigation" aria-label="Navigation mobile">
-      <a href="/cours" aria-current={currentPath.startsWith('/cours') ? 'page' : undefined} onclick={() => menuOpen = false}>Cours HTML, CSS et JavaScript</a>
-      <a href="/projets" aria-current={currentPath.startsWith('/projets') ? 'page' : undefined} onclick={() => menuOpen = false}>Projets</a>
-      <a href="/reference" aria-current={currentPath === '/reference' ? 'page' : undefined} onclick={() => menuOpen = false}>Références</a>
-      <a href="/progression" aria-current={currentPath === '/progression' ? 'page' : undefined} onclick={() => menuOpen = false}>Ma progression</a>
+      <a href={sitePath('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined} onclick={() => menuOpen = false}>Cours HTML, CSS et JavaScript</a>
+      <a href={sitePath('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined} onclick={() => menuOpen = false}>Projets</a>
+      <a href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined} onclick={() => menuOpen = false}>RÃƒÂ©fÃƒÂ©rences</a>
+      <a href={sitePath('/progression')} aria-current={currentPath === '/progression' ? 'page' : undefined} onclick={() => menuOpen = false}>Ma progression</a>
     </nav>
   {/if}
 
   <div class="workspace">
-    <aside class="side-nav" aria-label="Espace d’apprentissage">
+    <aside class="side-nav" aria-label="Espace dÃ¢â‚¬â„¢apprentissage">
       <p class="side-label">APPRENDRE</p>
-      <a class="side-link" class:active={currentPath === '/'} href="/" aria-current={currentPath === '/' ? 'page' : undefined}>Accueil</a>
-      <a class="side-link" class:active={currentPath.startsWith('/cours')} href="/cours" aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Tous les cours</a>
-      <a class="side-link" class:active={currentPath.startsWith('/projets')} href="/projets" aria-current={currentPath.startsWith('/projets') ? 'page' : undefined}>Projets pratiques</a>
+      <a class="side-link" class:active={currentPath === '/'} href={sitePath('/')} aria-current={currentPath === '/' ? 'page' : undefined}>Accueil</a>
+      <a class="side-link" class:active={currentPath.startsWith('/cours')} href={sitePath('/cours')} aria-current={currentPath.startsWith('/cours') ? 'page' : undefined}>Tous les cours</a>
+      <a class="side-link" class:active={currentPath.startsWith('/projets')} href={sitePath('/projets')} aria-current={currentPath.startsWith('/projets') ? 'page' : undefined}>Projets pratiques</a>
       <div class="side-divider"></div>
       <p class="side-label">FONDAMENTAUX</p>
-      <a class="side-link" class:active={currentPath.startsWith('/cours/html')} href="/cours/html" aria-current={currentPath.startsWith('/cours/html') ? 'page' : undefined}><span class="course-dot html-dot"></span>HTML</a>
-      <a class="side-link" class:active={currentPath.startsWith('/cours/css')} href="/cours/css" aria-current={currentPath.startsWith('/cours/css') ? 'page' : undefined}><span class="course-dot css-dot"></span>CSS</a>
-      <a class="side-link" class:active={currentPath.startsWith('/cours/javascript')} href="/cours/javascript" aria-current={currentPath.startsWith('/cours/javascript') ? 'page' : undefined}><span class="course-dot js-dot"></span>JavaScript</a>
+      <a class="side-link" class:active={currentPath.startsWith('/cours/html')} href={sitePath('/cours/html')} aria-current={currentPath.startsWith('/cours/html') ? 'page' : undefined}><span class="course-dot html-dot"></span>HTML</a>
+      <a class="side-link" class:active={currentPath.startsWith('/cours/css')} href={sitePath('/cours/css')} aria-current={currentPath.startsWith('/cours/css') ? 'page' : undefined}><span class="course-dot css-dot"></span>CSS</a>
+      <a class="side-link" class:active={currentPath.startsWith('/cours/javascript')} href={sitePath('/cours/javascript')} aria-current={currentPath.startsWith('/cours/javascript') ? 'page' : undefined}><span class="course-dot js-dot"></span>JavaScript</a>
       <div class="side-divider"></div>
-      <a class="side-link" class:active={currentPath === '/reference'} href="/reference" aria-current={currentPath === '/reference' ? 'page' : undefined}>Documentation de référence</a>
-      <a class="side-link" class:active={currentPath === '/progression'} href="/progression" aria-current={currentPath === '/progression' ? 'page' : undefined}>Progression personnelle</a>
-      <div class="side-note"><span class="note-mark" aria-hidden="true"></span><p>Tu avances à ton rythme. Reviens à une leçon quand tu en as besoin.</p></div>
+      <a class="side-link" class:active={currentPath === '/reference'} href={sitePath('/reference')} aria-current={currentPath === '/reference' ? 'page' : undefined}>Documentation de rÃƒÂ©fÃƒÂ©rence</a>
+      <a class="side-link" class:active={currentPath === '/progression'} href={sitePath('/progression')} aria-current={currentPath === '/progression' ? 'page' : undefined}>Progression personnelle</a>
+      <div class="side-note"><span class="note-mark" aria-hidden="true"></span><p>Tu avances ÃƒÂ  ton rythme. Reviens ÃƒÂ  une leÃƒÂ§on quand tu en as besoin.</p></div>
     </aside>
 
     <main id="contenu" class="page-content">
@@ -86,9 +88,9 @@
   </div>
 
   <footer class="site-footer">
-    <a class="footer-brand" href="/">WebSchool</a>
-    <span>Une notion à la fois, un exemple après l’autre.</span>
-    <div><a href="/cours">Cours</a><a href="/reference">Références</a><a href="/a-propos">À propos</a></div>
+    <a class="footer-brand" href={sitePath('/')}>WebSchool</a>
+    <span>Une notion ÃƒÂ  la fois, un exemple aprÃƒÂ¨s lÃ¢â‚¬â„¢autre.</span>
+    <div><a href={sitePath('/cours')}>Cours</a><a href={sitePath('/reference')}>RÃƒÂ©fÃƒÂ©rences</a><a href={sitePath('/a-propos')}>Ãƒâ‚¬ propos</a></div>
   </footer>
 </div>
 

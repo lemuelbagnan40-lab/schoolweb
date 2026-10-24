@@ -1,4 +1,5 @@
 <script>
+  import { sitePath } from '$lib/site-path.js';
   import SeoHead from '$lib/SeoHead.svelte';
   import { searchResources } from '$lib/services/search.js';
 
@@ -19,25 +20,25 @@
   ];
   const types = [
     { id: 'all', label: 'Tous les contenus' }, { id: 'course', label: 'Cours' },
-    { id: 'module', label: 'Chapitres' }, { id: 'lesson', label: 'Leçons' },
-    { id: 'exercise', label: 'Exercices' }, { id: 'reference', label: 'Références' },
+    { id: 'module', label: 'Chapitres' }, { id: 'lesson', label: 'LeÃ§ons' },
+    { id: 'exercise', label: 'Exercices' }, { id: 'reference', label: 'RÃ©fÃ©rences' },
     { id: 'project', label: 'Projets' }
   ];
 
   function resultType(result) {
-    return ({ course: 'Cours', module: 'Chapitre', lesson: 'Leçon', exercise: 'Exercice', reference: 'Référence', project: 'Projet' })[result.type] ?? 'Ressource';
+    return ({ course: 'Cours', module: 'Chapitre', lesson: 'LeÃ§on', exercise: 'Exercice', reference: 'RÃ©fÃ©rence', project: 'Projet' })[result.type] ?? 'Ressource';
   }
 </script>
 
-<SeoHead title="Recherche — WebSchool" description="Recherche dans les parcours, leçons, exercices et références WebSchool." noindex />
-<header class="search-heading"><span class="eyebrow">RECHERCHER DANS WEBSCHOOL</span><h1>Résultats de recherche</h1>{#if data.query}<p>Pour « {data.query} »</p>{:else}<p>Recherche dans les parcours, les leçons et les références.</p>{/if}</header>
-<form class="search-form" action="/recherche" method="get" role="search"><label for="search-page-query">Notion à rechercher</label><div class="query-row"><input id="search-page-query" name="q" type="search" value={data.query} placeholder="Ex. : flex, tableau, addEventListener" /><button type="submit">Rechercher</button>{#if data.query}<a href="/recherche" aria-label="Effacer la recherche">Effacer</a>{/if}</div></form>
+<SeoHead title="Recherche â€” WebSchool" description="Recherche dans les parcours, leÃ§ons, exercices et rÃ©fÃ©rences WebSchool." noindex />
+<header class="search-heading"><span class="eyebrow">RECHERCHER DANS WEBSCHOOL</span><h1>RÃ©sultats de recherche</h1>{#if data.query}<p>Pour Â« {data.query} Â»</p>{:else}<p>Recherche dans les parcours, les leÃ§ons et les rÃ©fÃ©rences.</p>{/if}</header>
+<form class="search-form" action={sitePath('/recherche')} method="get" role="search"><label for="search-page-query">Notion Ã  rechercher</label><div class="query-row"><input id="search-page-query" name="q" type="search" value={data.query} placeholder="Ex. : flex, tableau, addEventListener" /><button type="submit">Rechercher</button>{#if data.query}<a href={sitePath('/recherche')} aria-label="Effacer la recherche">Effacer</a>{/if}</div></form>
 {#if data.query.trim()}
-  <div class="filters"><label for="technology-filter">Technologie<select id="technology-filter" bind:value={technology}>{#each technologies as item}<option value={item.id}>{item.label}</option>{/each}</select></label><label for="type-filter">Type de contenu<select id="type-filter" bind:value={type}>{#each types as item}<option value={item.id}>{item.label}</option>{/each}</select></label><p class="result-count" role="status">{results.length} résultat{results.length === 1 ? '' : 's'}</p></div>
+  <div class="filters"><label for="technology-filter">Technologie<select id="technology-filter" bind:value={technology}>{#each technologies as item}<option value={item.id}>{item.label}</option>{/each}</select></label><label for="type-filter">Type de contenu<select id="type-filter" bind:value={type}>{#each types as item}<option value={item.id}>{item.label}</option>{/each}</select></label><p class="result-count" role="status">{results.length} rÃ©sultat{results.length === 1 ? '' : 's'}</p></div>
   {#if results.length}
-    <ol class="results">{#each results as result (result.id)}<li><article><div class="result-top"><span class="result-type">{resultType(result)}</span><span class="result-tech">{result.technologies?.join(' · ') ?? result.technology.toUpperCase()}</span></div><h2><a href={result.href}>{result.title}</a></h2><p>{result.description}</p>{#if result.excerpt}<p class="excerpt">{result.excerpt}</p>{/if}<div class="result-bottom">{#each result.keywords.slice(0, 5) as keyword}<span>{keyword}</span>{/each}<a class="open-result" href={result.href}>Ouvrir <span aria-hidden="true">→</span></a></div></article></li>{/each}</ol>
+    <ol class="results">{#each results as result (result.id)}<li><article><div class="result-top"><span class="result-type">{resultType(result)}</span><span class="result-tech">{result.technologies?.join(' Â· ') ?? result.technology.toUpperCase()}</span></div><h2><a href={sitePath(result.href)}>{result.title}</a></h2><p>{result.description}</p>{#if result.excerpt}<p class="excerpt">{result.excerpt}</p>{/if}<div class="result-bottom">{#each result.keywords.slice(0, 5) as keyword}<span>{keyword}</span>{/each}<a class="open-result" href={sitePath(result.href)}>Ouvrir <span aria-hidden="true">â†’</span></a></div></article></li>{/each}</ol>
   {:else}
-    <section class="empty-state"><span aria-hidden="true">⌕</span><h2>Aucun résultat pour « {data.query} »</h2><p>Essaie une partie du nom, sans accent si besoin, ou modifie les filtres.</p><a href="/cours">Parcourir les cours</a></section>
+    <section class="empty-state"><span aria-hidden="true">âŒ•</span><h2>Aucun rÃ©sultat pour Â« {data.query} Â»</h2><p>Essaie une partie du nom, sans accent si besoin, ou modifie les filtres.</p><a href={sitePath('/cours')}>Parcourir les cours</a></section>
   {/if}
 {/if}
 

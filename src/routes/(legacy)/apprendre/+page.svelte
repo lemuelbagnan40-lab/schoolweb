@@ -1,4 +1,5 @@
 <script>
+  import { sitePath } from '$lib/site-path.js';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { getLegacyLessonId } from '$lib/data/lessons/course-index.js';
@@ -6,10 +7,10 @@
 
   import { courses } from '$lib/data/legacy-courses.js';
 
-  const levels = ['Débutant', 'Intermédiaire', 'Avancé'];
+  const levels = ['DÃ©butant', 'IntermÃ©diaire', 'AvancÃ©'];
 
   let activeCourse = $state('html');
-  let activeLevel = $state('Débutant');
+  let activeLevel = $state('DÃ©butant');
   let lessonIndex = $state(0);
   let code = $state('');
   let query = $state('');
@@ -29,15 +30,16 @@
   const completedAtLevel = $derived(lessonsAtLevel.filter((item) => completed.includes(`${item.courseId}:${item.title}`)).length);
   const levelProgress = $derived(lessonsAtLevel.length ? Math.round((completedAtLevel / lessonsAtLevel.length) * 100) : 0);
   const quizzes = {
-    html: { question: 'Quelle balise sert au titre principal d’une page ?', options: ['<h1>', '<p>', '<img>'], answer: 0 },
-    css: { question: 'Quelle propriété CSS change la couleur du texte ?', options: ['src', 'color', 'font-style'], answer: 1 },
-    js: { question: 'Quel mot-clé déclare une constante en JavaScript ?', options: ['const', 'style', 'return'], answer: 0 }
+    html: { question: 'Quelle balise sert au titre principal dâ€™une page ?', options: ['<h1>', '<p>', '<img>'], answer: 0 },
+    css: { question: 'Quelle propriÃ©tÃ© CSS change la couleur du texte ?', options: ['src', 'color', 'font-style'], answer: 1 },
+    js: { question: 'Quel mot-clÃ© dÃ©clare une constante en JavaScript ?', options: ['const', 'style', 'return'], answer: 0 }
   };
   let quizChoice = $state(-1);
   let quizMessage = $state('');
   const quiz = $derived(quizzes[activeCourse]);
   const currentLessonId = $derived(`${activeCourse}:${lesson.title}`);
-  const previewDoc = $derived(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font:16px Arial,sans-serif;color:#28352f;padding:20px;line-height:1.6} ${activeCourse === 'css' ? code : ''}button{padding:9px 14px;border:0;border-radius:7px;background:#198754;color:white;cursor:pointer}</style></head><body>${activeCourse === 'html' ? code : activeCourse === 'css' ? '<div class="card"><h1>Bonjour le web !</h1><p>Personnalise ce style avec le code CSS.</p></div><div class="row"><div class="item">HTML</div><div class="item">CSS</div><div class="item">JavaScript</div></div>' : '<h1>Démo JavaScript</h1><p id="message">Modifie le code puis regarde le résultat.</p><button id="action">Clique ici</button>'}${activeCourse === 'js' ? `<script>${code.replace(/<\/script/gi, '<\\/script')}<\/script>` : ''}</body></html>`);
+  const previewDoc = $derived(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font:16px Arial,sans-serif;color:#28352f;padding:20px;line-height:1.6} ${activeCourse === 'css' ? code : ''}button{padding:9px 14px;border:0;border-radius:7px;background:#198754;color:white;cursor:pointer}</style></head><body>${activeCourse === 'html' ? code : activeCourse === 'css' ? '<div class="card"><h1>Bonjour le web !</h1><p>Personnalise ce style avec le code CSS.</p></div><div class="row"><div class="item">HTML</div><div class="item">CSS</div><div class="item">JavaScript</div></div>' : '<h1>DÃ©mo JavaScript</h1><p id="message">Modifie le code puis regarde le rÃ©sultat.</p><button id="action">Clique ici</button>'}${activeCourse === 'js' ? `<script>
+  import { sitePath } from '$lib/site-path.js';${code.replace(/<\/script/gi, '<\\/script')}<\/script>` : ''}</body></html>`);
 
   function selectCourse(id) {
     activeCourse = id;
@@ -93,7 +95,7 @@
 
   function answerQuiz(index) {
     quizChoice = index;
-    quizMessage = index === quiz.answer ? 'Bonne réponse ! Tu as compris cette notion.' : 'Pas tout à fait. Relis le conseil ci-dessus et réessaie.';
+    quizMessage = index === quiz.answer ? 'Bonne rÃ©ponse ! Tu as compris cette notion.' : 'Pas tout Ã  fait. Relis le conseil ci-dessus et rÃ©essaie.';
     if (index === quiz.answer) {
       if (!completed.includes(currentLessonId)) completed = [...completed, currentLessonId];
       trackLesson(activeCourse, lesson, true);
@@ -103,7 +105,7 @@
   function markComplete() {
     if (!completed.includes(currentLessonId)) completed = [...completed, currentLessonId];
     trackLesson(activeCourse, lesson, true);
-    notice = 'Leçon terminée ! Continue comme ça.';
+    notice = 'LeÃ§on terminÃ©e ! Continue comme Ã§a.';
   }
 
   onMount(() => {
@@ -128,7 +130,7 @@
         const legacyId = /^(html|css|js)-(\d+)$/.exec(id);
         if (!legacyId) return [];
         const oldLesson = courses.find((item) => item.id === legacyId[1])?.lessons[Number(legacyId[2])];
-        return oldLesson?.level === 'Débutant' ? [`${legacyId[1]}:${oldLesson.title}`] : [];
+        return oldLesson?.level === 'DÃ©butant' ? [`${legacyId[1]}:${oldLesson.title}`] : [];
       }) : [];
       const structuredProgress = readProgress();
       const migrated = courses.flatMap((item) => item.lessons
@@ -156,71 +158,71 @@
 </script>
 
 <svelte:head>
-  <title>Ateliers interactifs HTML, CSS et JavaScript — WebSchool</title>
-  <meta name="description" content="Essaie les ateliers interactifs HTML, CSS et JavaScript avec des exemples modifiables et un aperçu en direct." />
+  <title>Ateliers interactifs HTML, CSS et JavaScript â€” WebSchool</title>
+  <meta name="description" content="Essaie les ateliers interactifs HTML, CSS et JavaScript avec des exemples modifiables et un aperÃ§u en direct." />
   <meta name="robots" content="noindex, follow" />
 </svelte:head>
 
 <div class="site-shell">
   <a class="skip-link" href="#accueil">Aller au contenu</a>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="WebSchool, accueil"><span class="brand-mark">&lt;/&gt;</span><span class="brand-name">web<span>school</span><small>APPRENDRE EN PRATIQUANT</small></span></a>
+    <a class="brand" href={sitePath('/')} aria-label="WebSchool, accueil"><span class="brand-mark">&lt;/&gt;</span><span class="brand-name">web<span>school</span><small>APPRENDRE EN PRATIQUANT</small></span></a>
     <nav class="top-links" aria-label="Cours principaux">
       {#each courses as item}<button class:chosen={activeCourse === item.id} aria-pressed={activeCourse === item.id} onclick={() => selectCourse(item.id)}>{item.name}</button>{/each}
     </nav>
-    <div class="top-actions"><span class="progress-chip"><span class="progress-dot"></span>{progress}% terminé</span><button class="menu-toggle" aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={mobileMenuOpen} onclick={() => mobileMenuOpen = !mobileMenuOpen}>☰</button></div>
+    <div class="top-actions"><span class="progress-chip"><span class="progress-dot"></span>{progress}% terminÃ©</span><button class="menu-toggle" aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={mobileMenuOpen} onclick={() => mobileMenuOpen = !mobileMenuOpen}>â˜°</button></div>
   </header>
 
   <div class="layout">
     <aside class:mobile-open={mobileMenuOpen} class="sidebar">
-      <div class="search-wrap"><span aria-hidden="true">⌕</span><input bind:this={searchField} aria-label="Chercher une leçon" bind:value={query} placeholder="Chercher un cours..." /><kbd>⌘ / Ctrl K</kbd></div>
+      <div class="search-wrap"><span aria-hidden="true">âŒ•</span><input bind:this={searchField} aria-label="Chercher une leÃ§on" bind:value={query} placeholder="Chercher un cours..." /><kbd>âŒ˜ / Ctrl K</kbd></div>
       {#if query}
-        <div class="sidebar-section"><p class="sidebar-heading">RÉSULTATS ({filteredLessons.length})</p>{#each filteredLessons as item}<button class="lesson-link" onclick={() => selectLesson(item)}><span class="result-dot" style={`--course-color:${courses.find((c) => c.id === item.courseId).color}`}></span>{item.title}<small>{item.courseId.toUpperCase()}</small></button>{/each}{#if filteredLessons.length === 0}<p class="no-results">Aucune leçon trouvée.</p>{/if}</div>
+        <div class="sidebar-section"><p class="sidebar-heading">RÃ‰SULTATS ({filteredLessons.length})</p>{#each filteredLessons as item}<button class="lesson-link" onclick={() => selectLesson(item)}><span class="result-dot" style={`--course-color:${courses.find((c) => c.id === item.courseId).color}`}></span>{item.title}<small>{item.courseId.toUpperCase()}</small></button>{/each}{#if filteredLessons.length === 0}<p class="no-results">Aucune leÃ§on trouvÃ©e.</p>{/if}</div>
       {:else}
         <div class="sidebar-welcome"><span class="eyebrow">TON PARCOURS</span><h2>On apprend mieux en pratiquant.</h2><p>Lis une notion, teste le code, puis observe ce qui change. Tu peux recommencer autant de fois que tu veux.</p></div>
         <div class="sidebar-section"><p class="sidebar-heading">FONDAMENTAUX</p>
           {#each courses as item}
-            <div class="course-group"><button class:course-active={activeCourse === item.id} class="course-heading" onclick={() => selectCourse(item.id)}><span class="course-icon" style={`--course-color:${item.color}`}>{item.icon}</span><span>{item.name}<small>{item.description}</small></span><span class="chevron">›</span></button>
-              {#if activeCourse === item.id}<div class="lesson-list">{#each item.lessons as entry, index}{#if entry.level === activeLevel}<button class:lesson-active={lessonIndex === index} class="lesson-link" onclick={() => selectLesson({ courseId: item.id, index, level: entry.level })}><span class="lesson-status">{completed.includes(`${item.id}:${entry.title}`) ? '✓' : ''}</span>{entry.title}<small>{entry.duration}</small></button>{/if}{/each}</div>{/if}
+            <div class="course-group"><button class:course-active={activeCourse === item.id} class="course-heading" onclick={() => selectCourse(item.id)}><span class="course-icon" style={`--course-color:${item.color}`}>{item.icon}</span><span>{item.name}<small>{item.description}</small></span><span class="chevron">â€º</span></button>
+              {#if activeCourse === item.id}<div class="lesson-list">{#each item.lessons as entry, index}{#if entry.level === activeLevel}<button class:lesson-active={lessonIndex === index} class="lesson-link" onclick={() => selectLesson({ courseId: item.id, index, level: entry.level })}><span class="lesson-status">{completed.includes(`${item.id}:${entry.title}`) ? 'âœ“' : ''}</span>{entry.title}<small>{entry.duration}</small></button>{/if}{/each}</div>{/if}
             </div>
           {/each}
         </div>
-        <div class="sidebar-note"><span>✦</span><div><strong>Tu bloques ?</strong><p>Change une seule chose à la fois. C’est souvent le meilleur moyen de comprendre ce qui se passe.</p></div></div>
+        <div class="sidebar-note"><span>âœ¦</span><div><strong>Tu bloques ?</strong><p>Change une seule chose Ã  la fois. Câ€™est souvent le meilleur moyen de comprendre ce qui se passe.</p></div></div>
       {/if}
-      <div class="sidebar-footer"><span class="avatar">W</span><span><strong>Mon espace</strong><small>Progression enregistrée ici</small></span><span class="settings">⚙</span></div>
+      <div class="sidebar-footer"><span class="avatar">W</span><span><strong>Mon espace</strong><small>Progression enregistrÃ©e ici</small></span><span class="settings">âš™</span></div>
     </aside>
 
     <main id="accueil" class="main-content">
-      <div class="breadcrumb"><span>Parcours</span><span>›</span><span>{course.name}</span><span>›</span><strong>{lesson.title}</strong></div>
+      <div class="breadcrumb"><span>Parcours</span><span>â€º</span><span>{course.name}</span><span>â€º</span><strong>{lesson.title}</strong></div>
       <section class="welcome-banner" style={`--course-color:${course.color}`}>
-        <div class="banner-copy"><span class="eyebrow">COURS INTERACTIF · {course.name.toUpperCase()}</span><h1>Le web, ça s’apprend <em>en faisant.</em></h1><p>Comprends les bases, teste tes idées et vois tes créations prendre vie.</p><div class="banner-meta"><span>◷ Environ 20 min</span><span>◎ Niveau débutant</span></div></div>
-        <div class="banner-art" aria-hidden="true"><div class="art-window"><div class="window-top"><i></i><i></i><i></i><span>ma-page.html</span></div><div class="window-lines"><b></b><b></b><b></b><b></b><b></b></div></div><div class="art-badge">{course.icon}</div><span class="art-spark spark-one">✳</span><span class="art-spark spark-two">✦</span></div>
+        <div class="banner-copy"><span class="eyebrow">COURS INTERACTIF Â· {course.name.toUpperCase()}</span><h1>Le web, Ã§a sâ€™apprend <em>en faisant.</em></h1><p>Comprends les bases, teste tes idÃ©es et vois tes crÃ©ations prendre vie.</p><div class="banner-meta"><span>â—· Environ 20 min</span><span>â—Ž Niveau dÃ©butant</span></div></div>
+        <div class="banner-art" aria-hidden="true"><div class="art-window"><div class="window-top"><i></i><i></i><i></i><span>ma-page.html</span></div><div class="window-lines"><b></b><b></b><b></b><b></b><b></b></div></div><div class="art-badge">{course.icon}</div><span class="art-spark spark-one">âœ³</span><span class="art-spark spark-two">âœ¦</span></div>
       </section>
 
-      <section class="level-selector" aria-label="Choisir le niveau d’apprentissage"><div class="level-intro"><span class="eyebrow">CHOISIS TON NIVEAU</span><p>Avance à ton rythme : tu peux changer de niveau quand tu veux.</p></div><div class="level-options">{#each levels as level}<button class:level-selected={activeLevel === level} aria-pressed={activeLevel === level} onclick={() => selectLevel(level)}><strong>{level}</strong><small>{course.lessons.filter((entry) => entry.level === level).length} leçons</small></button>{/each}</div></section>
+      <section class="level-selector" aria-label="Choisir le niveau dâ€™apprentissage"><div class="level-intro"><span class="eyebrow">CHOISIS TON NIVEAU</span><p>Avance Ã  ton rythme : tu peux changer de niveau quand tu veux.</p></div><div class="level-options">{#each levels as level}<button class:level-selected={activeLevel === level} aria-pressed={activeLevel === level} onclick={() => selectLevel(level)}><strong>{level}</strong><small>{course.lessons.filter((entry) => entry.level === level).length} leÃ§ons</small></button>{/each}</div></section>
 
       <div class="course-tabs" aria-label="Choisir un cours">{#each courses as item}<button class:tab-active={activeCourse === item.id} aria-pressed={activeCourse === item.id} onclick={() => selectCourse(item.id)}><span class="tab-icon" style={`--course-color:${item.color}`}>{item.icon}</span>{item.name}<small>{item.label}</small></button>{/each}</div>
 
-      <section class="course-overview"><div><span class="eyebrow">CE QUE TU VAS APPRENDRE</span><p>{course.description}</p><ul>{#each course.outcomes as outcome}<li>{outcome}</li>{/each}</ul></div><a href={course.reference} target="_blank" rel="noreferrer">Approfondir sur MDN <span aria-hidden="true">↗</span></a></section>
+      <section class="course-overview"><div><span class="eyebrow">CE QUE TU VAS APPRENDRE</span><p>{course.description}</p><ul>{#each course.outcomes as outcome}<li>{outcome}</li>{/each}</ul></div><a href={course.reference} target="_blank" rel="noreferrer">Approfondir sur MDN <span aria-hidden="true">â†—</span></a></section>
 
-      <section class="path-progress" aria-label="Progression du niveau sélectionné"><div><strong>Ton parcours {activeLevel.toLowerCase()}</strong><span>{completedAtLevel} / {lessonsAtLevel.length} leçons terminées <b>·</b> {levelProgress}%</span></div><div class="progress-track" role="progressbar" aria-label={`Progression niveau ${activeLevel}`} aria-valuemin="0" aria-valuemax="100" aria-valuenow={levelProgress}><span style={`width:${levelProgress}%`}></span></div></section>
+      <section class="path-progress" aria-label="Progression du niveau sÃ©lectionnÃ©"><div><strong>Ton parcours {activeLevel.toLowerCase()}</strong><span>{completedAtLevel} / {lessonsAtLevel.length} leÃ§ons terminÃ©es <b>Â·</b> {levelProgress}%</span></div><div class="progress-track" role="progressbar" aria-label={`Progression niveau ${activeLevel}`} aria-valuemin="0" aria-valuemax="100" aria-valuenow={levelProgress}><span style={`width:${levelProgress}%`}></span></div></section>
 
-      <section class="lesson-heading"><div><div class="lesson-kicker"><span class="level-tag">{lesson.level}</span><span>Leçon {lessonPosition + 1} sur {lessonsForLevel.length}</span><span>·</span><span>{lesson.duration}</span></div><h2>{lesson.title}</h2><p>{lesson.intro}</p></div><button class:done={completed.includes(currentLessonId)} class="complete-button" onclick={markComplete}>{completed.includes(currentLessonId) ? '✓ Leçon terminée' : 'Marquer comme terminé'}</button></section>
+      <section class="lesson-heading"><div><div class="lesson-kicker"><span class="level-tag">{lesson.level}</span><span>LeÃ§on {lessonPosition + 1} sur {lessonsForLevel.length}</span><span>Â·</span><span>{lesson.duration}</span></div><h2>{lesson.title}</h2><p>{lesson.intro}</p></div><button class:done={completed.includes(currentLessonId)} class="complete-button" onclick={markComplete}>{completed.includes(currentLessonId) ? 'âœ“ LeÃ§on terminÃ©e' : 'Marquer comme terminÃ©'}</button></section>
 
       <div class="learning-grid">
         <div class="lesson-column">
-          <article class="concept-card"><div class="card-icon" style={`--course-color:${course.color}`}>✦</div><div><h3>À retenir</h3><p>{lesson.concept}</p></div></article>
-          <article class="practice-card"><div class="practice-heading"><div><span class="eyebrow">À TOI DE JOUER</span><h3>Petit défi</h3></div><span class="challenge-icon">⌘</span></div><p>{lesson.task}</p><button onclick={markComplete}>J’ai compris <span>→</span></button></article>
-          <div class="lesson-navigation"><button onclick={() => changeLesson(-1)} disabled={lessonPosition === 0}>← Précédent</button><span>{lessonPosition + 1} / {lessonsForLevel.length}</span><button onclick={() => changeLesson(1)} disabled={lessonPosition === lessonsForLevel.length - 1}>Leçon suivante →</button></div>
+          <article class="concept-card"><div class="card-icon" style={`--course-color:${course.color}`}>âœ¦</div><div><h3>Ã€ retenir</h3><p>{lesson.concept}</p></div></article>
+          <article class="practice-card"><div class="practice-heading"><div><span class="eyebrow">Ã€ TOI DE JOUER</span><h3>Petit dÃ©fi</h3></div><span class="challenge-icon">âŒ˜</span></div><p>{lesson.task}</p><button onclick={markComplete}>Jâ€™ai compris <span>â†’</span></button></article>
+          <div class="lesson-navigation"><button onclick={() => changeLesson(-1)} disabled={lessonPosition === 0}>â† PrÃ©cÃ©dent</button><span>{lessonPosition + 1} / {lessonsForLevel.length}</span><button onclick={() => changeLesson(1)} disabled={lessonPosition === lessonsForLevel.length - 1}>LeÃ§on suivante â†’</button></div>
         </div>
 
-        <section class="playground" aria-label="Éditeur de code et aperçu"><div class="playground-head"><div><span class="live-indicator"></span><strong>Zone de pratique</strong></div><button class="reset-button" onclick={() => code = lesson.code}>↺ Réinitialiser</button></div><div class="editor-label"><div><span class="file-icon" style={`--course-color:${course.color}`}>{course.name === 'JavaScript' ? 'JS' : course.name.slice(0, 3).toUpperCase()}</span><span>exemple.{activeCourse === 'html' ? 'html' : activeCourse === 'css' ? 'css' : 'js'}</span></div><span class="editable">● Modifiable</span></div><div class="editor-wrap"><div class="line-numbers">{#each code.split('\n') as _, i}<span>{i + 1}</span>{/each}</div><textarea aria-label="Éditeur de code" spellcheck="false" autocapitalize="off" bind:value={code}></textarea></div><div class="preview-head"><span>APERÇU EN DIRECT</span><span class="preview-dots">•••</span></div><iframe title="Aperçu du code" sandbox="allow-scripts" srcdoc={previewDoc}></iframe><div class="playground-foot"><span><span class="tip-icon">⌁</span> Modifie le code pour voir le résultat.</span><span class="language-label">{course.name}</span></div></section>
+        <section class="playground" aria-label="Ã‰diteur de code et aperÃ§u"><div class="playground-head"><div><span class="live-indicator"></span><strong>Zone de pratique</strong></div><button class="reset-button" onclick={() => code = lesson.code}>â†º RÃ©initialiser</button></div><div class="editor-label"><div><span class="file-icon" style={`--course-color:${course.color}`}>{course.name === 'JavaScript' ? 'JS' : course.name.slice(0, 3).toUpperCase()}</span><span>exemple.{activeCourse === 'html' ? 'html' : activeCourse === 'css' ? 'css' : 'js'}</span></div><span class="editable">â— Modifiable</span></div><div class="editor-wrap"><div class="line-numbers">{#each code.split('\n') as _, i}<span>{i + 1}</span>{/each}</div><textarea aria-label="Ã‰diteur de code" spellcheck="false" autocapitalize="off" bind:value={code}></textarea></div><div class="preview-head"><span>APERÃ‡U EN DIRECT</span><span class="preview-dots">â€¢â€¢â€¢</span></div><iframe title="AperÃ§u du code" sandbox="allow-scripts" srcdoc={previewDoc}></iframe><div class="playground-foot"><span><span class="tip-icon">âŒ</span> Modifie le code pour voir le rÃ©sultat.</span><span class="language-label">{course.name}</span></div></section>
       </div>
 
-      <section class="quiz-card"><div class="quiz-title"><span class="quiz-mark">?</span><div><span class="eyebrow">VÉRIFIE TES CONNAISSANCES</span><h3>Question rapide</h3></div></div><p>{quiz.question}</p><div class="quiz-options">{#each quiz.options as option, index}<button class:correct={quizChoice === index && index === quiz.answer} class:incorrect={quizChoice === index && index !== quiz.answer} onclick={() => answerQuiz(index)}>{option}<span>{quizChoice === index ? (index === quiz.answer ? '✓' : '↻') : '○'}</span></button>{/each}</div>{#if quizMessage}<p class:success={quizChoice === quiz.answer} class="quiz-feedback" role="status">{quizMessage}</p>{/if}</section>
+      <section class="quiz-card"><div class="quiz-title"><span class="quiz-mark">?</span><div><span class="eyebrow">VÃ‰RIFIE TES CONNAISSANCES</span><h3>Question rapide</h3></div></div><p>{quiz.question}</p><div class="quiz-options">{#each quiz.options as option, index}<button class:correct={quizChoice === index && index === quiz.answer} class:incorrect={quizChoice === index && index !== quiz.answer} onclick={() => answerQuiz(index)}>{option}<span>{quizChoice === index ? (index === quiz.answer ? 'âœ“' : 'â†»') : 'â—‹'}</span></button>{/each}</div>{#if quizMessage}<p class:success={quizChoice === quiz.answer} class="quiz-feedback" role="status">{quizMessage}</p>{/if}</section>
 
-      {#if notice}<div class="toast" role="status">✓ {notice}</div>{/if}
-      <footer><span>Fait pour apprendre, une ligne à la fois.</span><span>WebSchool <b>·</b> Cours gratuits</span></footer>
+      {#if notice}<div class="toast" role="status">âœ“ {notice}</div>{/if}
+      <footer><span>Fait pour apprendre, une ligne Ã  la fois.</span><span>WebSchool <b>Â·</b> Cours gratuits</span></footer>
     </main>
   </div>
 </div>
@@ -279,7 +281,7 @@
   @media(max-width:700px){.main-content{padding-top:18px}.course-overview{align-items:flex-start;flex-direction:column;gap:7px}.course-tabs button{font-size:12px}.course-tabs small{display:none}.lesson-heading p{font-size:14px}.editor-wrap{height:220px}.playground iframe{height:170px}}
   .course-overview ul{display:flex;flex-wrap:wrap;gap:7px 16px;list-style:none;margin:9px 0 0;padding:0}
   .course-overview li{font-size:11px;color:#4c7559}
-  .course-overview li:before{content:'✓';color:#299252;font-weight:800;margin-right:6px}
+  .course-overview li:before{content:'âœ“';color:#299252;font-weight:800;margin-right:6px}
   @media(prefers-reduced-motion:reduce){:global(*),:global(*:before),:global(*:after){scroll-behavior:auto!important;transition:none!important}}
   .level-selector{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;margin:14px 0 12px;background:#fff;border:1px solid #e8ede8;border-radius:12px}
   .level-intro{min-width:200px}.level-intro p{margin:4px 0 0;color:#68766d;font-size:12px;line-height:1.5}

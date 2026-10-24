@@ -12,3 +12,6 @@ function configuredOrigin(value) {
 }
 
 export const SITE_URL = configuredOrigin(env.PUBLIC_SITE_URL);
+export const SITE_BASE = env.PUBLIC_BASE_PATH?.replace(/^\/+|\/+$/g, '')
+  ? `/${env.PUBLIC_BASE_PATH.replace(/^\/+|\/+$/g, '')}`
+  : '';

@@ -1,8 +1,8 @@
 <script>
-  import { SITE_URL } from '$lib/site-config.js';
+  import { SITE_BASE, SITE_URL } from '$lib/site-config.js';
   let { title, description, path, noindex = false } = $props();
   const siteName = 'WebSchool';
-  const canonical = $derived(SITE_URL && path ? `${SITE_URL}${path}` : null);
+  const canonical = $derived(SITE_URL && path ? `${SITE_URL}${SITE_BASE}${path.endsWith('/') ? path : `${path}/`}` : null);
 </script>
 
 <svelte:head>
