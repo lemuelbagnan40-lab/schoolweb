@@ -29,8 +29,10 @@ Pour lancer les tests unitaires : `npm test`.
 
 ## Référencement en production
 
-Définir `PUBLIC_SITE_URL` avec l’origine HTTPS officielle (par exemple `https://votre-domaine.example`) dans l’environnement de déploiement. Cette valeur alimente les URL canoniques, `robots.txt` et le sitemap XML ; sans elle, les URL absolues ne sont pas émises et le sitemap reste vide. Remplacer l’exemple par le domaine réellement utilisé avant publication.
+Le site définit des titres, descriptions et URL canoniques pour les pages indexables. Le workflow GitHub Pages renseigne `PUBLIC_SITE_URL` ; cette valeur alimente aussi `robots.txt` et le sitemap XML.
+
+Après publication sur `https://lemuelbagnan40-lab.github.io/schoolweb/`, ajoute cette adresse comme propriété de préfixe d'URL dans [Google Search Console](https://search.google.com/search-console), puis vérifie la propriété en suivant la méthode proposée par Google. Dans **Sitemaps**, soumets `https://lemuelbagnan40-lab.github.io/schoolweb/sitemap.xml`. Tu peux ensuite utiliser l'inspection d'URL pour demander l'exploration de la page d'accueil et des pages importantes. La soumission aide Google à découvrir les URL, sans garantir leur indexation ni son délai.
 
 ## Déploiement GitHub Pages
 
-Le workflow `.github/workflows/deploy-pages.yml` construit et publie le site à chaque push sur `main`. Il configure le préfixe du dépôt `webschool` et génère les canonicals, `robots.txt` et le sitemap pour `https://lemuelbagnan40-lab.github.io/webschool/`. Dans les paramètres du dépôt GitHub, sélectionner **Settings → Pages → Build and deployment → Source → GitHub Actions**.
+Le workflow `.github/workflows/deploy-pages.yml` construit et publie le site à chaque push sur `main`, avec les URL canoniques, `robots.txt` et le sitemap sous `https://lemuelbagnan40-lab.github.io/schoolweb/`. La source Pages doit être **GitHub Actions** dans **Settings → Pages → Build and deployment**.
